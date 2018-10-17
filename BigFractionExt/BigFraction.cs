@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Numerics;
 
-namespace BigFractionTest
+namespace Aprismatic
 {
     public struct BigFraction
     {
         //Paramaters Numerator / Denominator
-        public BigInteger Numerator;
-        public BigInteger Denominator;
+        public BigInteger Numerator { get; private set; }
+        public BigInteger Denominator { get; private set; }
 
         //CONSTRUCTORS
 
@@ -21,6 +21,15 @@ namespace BigFractionTest
         //Decimal constructor
         public BigFraction(decimal dec)
         {
+            int count = BitConverter.GetBytes(decimal.GetBits(dec)[3])[2];  //count decimal places
+            Numerator = new BigInteger(dec * (Decimal)Math.Pow(10, count));
+            Denominator = new BigInteger(Math.Pow(10, count));
+        }
+
+        //Double constructor
+        public BigFraction(double dou)
+        {
+            decimal dec = (decimal)dou;
             int count = BitConverter.GetBytes(decimal.GetBits(dec)[3])[2];  //count decimal places
             Numerator = new BigInteger(dec * (Decimal)Math.Pow(10, count));
             Denominator = new BigInteger(Math.Pow(10, count));
@@ -50,7 +59,7 @@ namespace BigFractionTest
         //User-defined conversion from Double to BigFraction
         public static implicit operator BigFraction(double d)
         {
-            return new BigFraction((decimal)d);
+            return new BigFraction(d);
         }
 
         //User-defined conversion from Integer to BigFraction
@@ -118,7 +127,7 @@ namespace BigFractionTest
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == 1) { return true; }
+            if (r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0) { return true; }
             else { return false; }
         }
 
@@ -193,14 +202,6 @@ namespace BigFractionTest
         //NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
         public BigInteger ToBigInteger()
         {
-            BigInteger quotient = Numerator / Denominator;  //Separate quotient from the number for faster calculation
-            BigInteger remainder = Numerator % Denominator;
-            BigInteger gcd = BigInteger.GreatestCommonDivisor(remainder, Denominator);
-            remainder = remainder / gcd;
-
-            Denominator = Denominator / gcd;
-            Numerator = (quotient * Denominator) + remainder;
-
             return Numerator/Denominator;
         }
     }
