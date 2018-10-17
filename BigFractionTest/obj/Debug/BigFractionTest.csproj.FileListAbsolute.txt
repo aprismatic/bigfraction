@@ -1,4 +1,0 @@
-C:\Users\ethan\Desktop\Yifan\Workspace\ConsoleApp1\ConsoleApp1\obj\Debug\BigFractionTest.csprojAssemblyReference.cache
-C:\Users\ethan\Desktop\Yifan\Workspace\ConsoleApp1\ConsoleApp1\obj\Debug\BigFractionTest.csproj.CoreCompileInputs.cache
-C:\Users\ethan\Desktop\Yifan\Workspace\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
-C:\Users\ethan\Desktop\Yifan\Workspace\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
