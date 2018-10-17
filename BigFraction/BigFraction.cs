@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Aprismatic
 {
     public struct BigFraction
     {
