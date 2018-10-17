@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BigFractionExt\BigFractionExt.csproj" />
+    <ProjectReference Include="..\BigFractionExt\BigFraction.csproj" />
   </ItemGroup>
 
 </Project>

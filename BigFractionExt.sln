@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigFractionExt", "BigFractionExt\BigFractionExt.csproj", "{789A6139-A441-4547-81A9-8165E08C3B34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigFraction", "BigFractionExt\BigFraction.csproj", "{789A6139-A441-4547-81A9-8165E08C3B34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigFractionTest", "BigFractionTest\BigFractionTest.csproj", "{0DF03435-5684-4FD6-A7E5-0DF57BBF81F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigFractionTest", "BigFractionTest\BigFractionTest.csproj", "{0DF03435-5684-4FD6-A7E5-0DF57BBF81F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
