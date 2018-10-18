@@ -354,5 +354,14 @@ namespace MiscTest
             BigInteger expected = new BigInteger(10);
             Assert.Equal(expected, aint);
         }
+
+        [Fact(DisplayName = "DoubleToFraction")]
+        public void doubletofraction()
+        {
+            double a = 0.5;
+            BigFraction b = BigFraction.DoubleToFraction(a);
+            BigFraction expected = new BigFraction(new BigInteger(1), new BigInteger(2));
+            Assert.Equal(expected, b);
+        }
     }
 }
