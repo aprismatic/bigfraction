@@ -1,8 +1,8 @@
 using Xunit;
 using System.Numerics;
 using Xunit.Abstractions;
-using Aprismatic;
 using System;
+using Aprismatic.BigFraction;
 
 namespace ConstructorTest
 {
