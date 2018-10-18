@@ -19,30 +19,40 @@ namespace ConstructorTest
         public void IntConstructor()
         {
             BigFraction a = new BigFraction(-10);
+            BigFraction expected = new BigFraction(new BigInteger(-10), BigInteger.One);
+            Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Double")]
         public void DouConstructor()
         {
             BigFraction a = new BigFraction(6545.99);
+            BigFraction expected = new BigFraction(new BigInteger(654599), new BigInteger(100));
+            Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Decimal")]
         public void DecConstructor()
         {
             BigFraction a = new BigFraction(new decimal(8984.65));
+            BigFraction expected = new BigFraction(new BigInteger(898465), new BigInteger(100));
+            Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "BigInteger")]
         public void BigIntConstructor()
         {
             BigFraction a = new BigFraction(new BigInteger(33));
+            BigFraction expected = new BigFraction(new BigInteger(33), new BigInteger(1));
+            Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Fractional")]
         public void FracConstructor()
         {
-            BigFraction a = new BigFraction(new BigInteger(33), new BigInteger(99));
+            BigFraction a = new BigFraction(new BigInteger(3300), new BigInteger(9900));
+            BigFraction expected = new BigFraction(new BigInteger(33), new BigInteger(99));
+            Assert.Equal(expected, a);
         }
     }
 }
@@ -359,7 +369,7 @@ namespace MiscTest
         public void doubletofraction()
         {
             double a = 0.5;
-            BigFraction b = BigFraction.DoubleToFraction(a);
+            BigFraction b = BigFraction.FromDouble(a, 1e-15);
             BigFraction expected = new BigFraction(new BigInteger(1), new BigInteger(2));
             Assert.Equal(expected, b);
         }

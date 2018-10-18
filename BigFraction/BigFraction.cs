@@ -34,9 +34,9 @@ namespace Aprismatic
         }
 
         //Double constructor
-        public BigFraction(double dou)
+        public BigFraction(double dou, double accuracy = 1e-15)
         {
-            BigFraction f = DoubleToFraction(dou);
+            BigFraction f = FromDouble(dou, accuracy);
             Numerator = f.Numerator;
             Denominator = f.Denominator;
         }
@@ -213,7 +213,7 @@ namespace Aprismatic
 
         //Conversion from double to fraction
         //Accuracy is used to convert recurring decimals into fractions (eg. 0.166667 -> 1/6)
-        public static BigFraction DoubleToFraction(double value, double accuracy = 1e-15)
+        public static BigFraction FromDouble(double value, double accuracy)
         {
             if (accuracy <= 0.0 || accuracy >= 1.0)
             {
