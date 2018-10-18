@@ -6,6 +6,6 @@
     <Company>Nanyang Technological Unviersity</Company>
     <Product>BigFraction</Product>
     <Authors>Vasily Sidorov (bazzilic)</Authors>
-    <RootNamespace>BigFraction</RootNamespace>
+    <RootNamespace>Aprismatic.BigFraction</RootNamespace>
   </PropertyGroup>
 </Project>
