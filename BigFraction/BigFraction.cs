@@ -11,11 +11,18 @@ namespace Aprismatic
 
         //CONSTRUCTORS
 
-        //Fractional number constructor
+        //Fractional constructor
         public BigFraction(BigInteger num, BigInteger den)
         {
             Numerator = num;
             Denominator = den;
+        }
+
+        //BigInteger constructor
+        public BigFraction(BigInteger num)
+        {
+            Numerator = num;
+            Denominator = BigInteger.One;
         }
 
         //Decimal constructor
@@ -47,7 +54,7 @@ namespace Aprismatic
         //User-defined conversion from BigInteger to BigFraction
         public static implicit operator BigFraction(BigInteger integer)
         {
-            return new BigFraction(integer, BigInteger.One);
+            return new BigFraction(integer);
         }
 
         //User-defined conversion from Decimal to BigFraction
@@ -177,7 +184,7 @@ namespace Aprismatic
         //Override GetHashCode
         public override int GetHashCode()
         {
-            return Numerator.GetHashCode() ^ Denominator.GetHashCode();
+            return Numerator.GetHashCode() / Denominator.GetHashCode();
         }
 
         //Override ToString
