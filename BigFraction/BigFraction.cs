@@ -36,10 +36,9 @@ namespace Aprismatic
         //Double constructor
         public BigFraction(double dou)
         {
-            decimal dec = (decimal)dou;
-            int count = BitConverter.GetBytes(decimal.GetBits(dec)[3])[2];  //count decimal places
-            Numerator = new BigInteger(dec * (Decimal)Math.Pow(10, count));
-            Denominator = new BigInteger(Math.Pow(10, count));
+            BigFraction f = DoubleToFraction(dou);
+            Numerator = f.Numerator;
+            Denominator = f.Denominator;
         }
 
         //Integer constructor
@@ -210,6 +209,72 @@ namespace Aprismatic
         public BigInteger ToBigInteger()
         {
             return Numerator/Denominator;
+        }
+
+        //Conversion from double to fraction
+        //Accuracy is used to convert recurring decimals into fractions (eg. 0.166667 -> 1/6)
+        public static BigFraction DoubleToFraction(double value, double accuracy = 1e-15)
+        {
+            if (accuracy <= 0.0 || accuracy >= 1.0)
+            {
+                throw new ArgumentOutOfRangeException("accuracy", "Must be > 0 and < 1.");
+            }
+
+            var sign = Math.Sign(value);
+
+            if (sign == -1)
+            {
+                value = Math.Abs(value);
+            }
+
+            // Accuracy is the maximum relative error; convert to absolute maxError
+            double maxError = sign == 0 ? accuracy : value * accuracy;
+
+            var n = new BigInteger(value);
+            value -= Math.Floor(value);
+
+            if (value < maxError)
+            {
+                return new BigFraction(sign * n, BigInteger.One);
+            }
+
+            if (1 - maxError < value)
+            {
+                return new BigFraction(sign * (n + 1), BigInteger.One);
+            }
+
+            // The lower fraction is 0/1
+            int lower_n = 0;
+            int lower_d = 1;
+
+            // The upper fraction is 1/1
+            int upper_n = 1;
+            int upper_d = 1;
+
+            while (true)
+            {
+                // The middle fraction is (lower_n + upper_n) / (lower_d + upper_d)
+                int middle_n = lower_n + upper_n;
+                int middle_d = lower_d + upper_d;
+
+                if (middle_d * (value + maxError) < middle_n)
+                {
+                    // real + error < middle : middle is our new upper
+                    upper_n = middle_n;
+                    upper_d = middle_d;
+                }
+                else if (middle_n < (value - maxError) * middle_d)
+                {
+                    // middle < real - error : middle is our new lower
+                    lower_n = middle_n;
+                    lower_d = middle_d;
+                }
+                else
+                {
+                    // Middle is our best fraction
+                    return new BigFraction((n * middle_d + middle_n) * sign, middle_d);
+                }
+            }
         }
     }
 }
