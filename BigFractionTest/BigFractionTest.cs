@@ -99,7 +99,7 @@ namespace ImplicitConversion
     }
 }
 
-namespace OpearatorTest
+namespace OperatorTest
 {
     public class BigFractionOperatorBigFraction
     {
@@ -108,6 +108,15 @@ namespace OpearatorTest
         public BigFractionOperatorBigFraction(ITestOutputHelper output)
         {
             this.output = output;
+        }
+
+        [Fact(DisplayName = "Unary minus")]
+        public void Unaryminus()
+        {
+            BigFraction a = new BigFraction(1000);
+            a = -a;
+            BigFraction expected = new BigFraction(-1000);
+            Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "+")]

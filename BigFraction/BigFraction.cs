@@ -74,6 +74,12 @@ namespace Aprismatic.BigFraction
             return new BigFraction(i);
         }
 
+        //Unary minus
+        public static BigFraction operator -(BigFraction value)
+        {
+            return value * -1;
+        }
+
         //Operator %
         public static BigFraction operator %(BigFraction r, BigInteger mod)
         {
