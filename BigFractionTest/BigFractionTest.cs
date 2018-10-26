@@ -2,7 +2,7 @@ using Xunit;
 using System.Numerics;
 using Xunit.Abstractions;
 using System;
-using Aprismatic.BigFraction;
+using Aprismatic;
 
 namespace ConstructorTest
 {
