@@ -1,8 +1,8 @@
-using Xunit;
-using System.Numerics;
-using Xunit.Abstractions;
-using System;
 using Aprismatic;
+using System;
+using System.Numerics;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace ConstructorTest
 {
