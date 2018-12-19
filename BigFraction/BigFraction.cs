@@ -41,6 +41,13 @@ namespace Aprismatic
             Denominator = f.Denominator;
         }
 
+        //Long constructor
+        public BigFraction(long i)
+        {
+            Numerator = new BigInteger(i);
+            Denominator = BigInteger.One;
+        }
+
         //Integer constructor
         public BigFraction(int i)
         {
@@ -66,6 +73,12 @@ namespace Aprismatic
         public static implicit operator BigFraction(double d)
         {
             return new BigFraction(d);
+        }
+
+        //User-defined conversion from Long to BigFraction
+        public static implicit operator BigFraction(long l)
+        {
+            return new BigFraction(l);
         }
 
         //User-defined conversion from Integer to BigFraction
