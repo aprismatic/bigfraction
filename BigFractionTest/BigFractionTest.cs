@@ -1,8 +1,8 @@
-using Xunit;
-using System.Numerics;
-using Xunit.Abstractions;
-using System;
 using Aprismatic;
+using System;
+using System.Numerics;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace ConstructorTest
 {
@@ -20,6 +20,14 @@ namespace ConstructorTest
         {
             BigFraction a = new BigFraction(-10);
             BigFraction expected = new BigFraction(new BigInteger(-10), BigInteger.One);
+            Assert.Equal(expected, a);
+        }
+
+        [Fact(DisplayName = "Long")]
+        public void LongConstructor()
+        {
+            BigFraction a = new BigFraction(12147483647);
+            BigFraction expected = new BigFraction(new BigInteger(12147483647), BigInteger.One);
             Assert.Equal(expected, a);
         }
 
@@ -85,6 +93,15 @@ namespace ImplicitConversion
             double a = 1000.01;
             BigFraction afrac = a;
             BigFraction expected = new BigFraction(new BigInteger(100001), new BigInteger(100));
+            Assert.Equal(expected, afrac);
+        }
+
+        [Fact(DisplayName = "Long->BigFraction")]
+        public void LongtoBigFrac()
+        {
+            long a = 10000;
+            BigFraction afrac = a;
+            BigFraction expected = new BigFraction(new BigInteger(10000), new BigInteger(1));
             Assert.Equal(expected, afrac);
         }
 

@@ -1,2 +1,1 @@
-# BigFractionTest
-Test program for BigFraction
+# BigFraction
