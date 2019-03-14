@@ -191,12 +191,12 @@ namespace Aprismatic
         //Override Equals
         public override bool Equals(object obj)
         {
-            if (obj == null) { return false; } 
-
-            BigFraction comparebigfrac = (BigFraction)obj;
-            if(Numerator == 0 && comparebigfrac.Numerator == 0) { return true; }    //If both values are zero
-
-            return Numerator*comparebigfrac.Denominator == comparebigfrac.Numerator*Denominator;
+            if (obj is BigFraction comparebigfrac)
+            {
+                if (Numerator == 0 && comparebigfrac.Numerator == 0) { return true; }    //If both values are zero
+                return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
+            }
+            return false;
         }
 
         //Override GetHashCode
@@ -227,7 +227,12 @@ namespace Aprismatic
         //NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
         public BigInteger ToBigInteger()
         {
-            return Numerator/Denominator;
+            return Numerator / Denominator;
+        }
+
+        public double ToDouble()
+        {
+            return (double)Numerator / (double)Denominator;
         }
 
         //Conversion from double to fraction
