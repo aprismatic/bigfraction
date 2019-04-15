@@ -230,9 +230,19 @@ namespace Aprismatic
             return Numerator / Denominator;
         }
 
+        public float ToFloat()
+        {
+            return (float)Numerator / (float)Denominator;
+        }
+
         public double ToDouble()
         {
             return (double)Numerator / (double)Denominator;
+        }
+
+        public decimal ToDecimal()
+        {
+            return (decimal)Numerator / (decimal)Denominator;
         }
 
         //Conversion from double to fraction
