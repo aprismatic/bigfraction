@@ -162,33 +162,27 @@ namespace Aprismatic
         //Operator -
         public static BigFraction operator -(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator - b.Numerator * a.Denominator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator - b.Numerator * a.Denominator,
+                a.Denominator * b.Denominator);
         }
 
         //Operator +
         public static BigFraction operator +(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator + b.Numerator * a.Denominator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator + b.Numerator * a.Denominator,
+                a.Denominator * b.Denominator);
         }
 
         //Operator *
         public static BigFraction operator *(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Numerator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
         }
 
         //Operator /
         public static BigFraction operator /(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator;
-            a.Denominator = a.Denominator * b.Numerator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
         }
 
         //Override Equals
