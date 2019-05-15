@@ -9,6 +9,9 @@ namespace Aprismatic
         public BigInteger Numerator { get; private set; }
         public BigInteger Denominator { get; private set; }
 
+        private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
+        private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
+
         //CONSTRUCTORS
 
         //Fractional constructor
@@ -242,7 +245,28 @@ namespace Aprismatic
 
         public decimal ToDecimal()
         {
-            return (decimal)Numerator / (decimal)Denominator;
+            return DecimalScale(this);
+        }
+
+        private static decimal DecimalScale(BigFraction bigFraction)
+        {
+            if (bigFraction.Numerator <= MAX_DECIMAL && bigFraction.Numerator >= MIN_DECIMAL &&
+                bigFraction.Denominator <= MAX_DECIMAL && bigFraction.Denominator >= MIN_DECIMAL)
+                return (decimal)bigFraction.Numerator / (decimal)bigFraction.Denominator;
+            var intPart = bigFraction.Numerator / bigFraction.Denominator;
+            decimal floatPart = 0;
+            if (intPart != 0)
+            {
+                floatPart = DecimalScale(new BigFraction(bigFraction.Numerator - intPart * bigFraction.Denominator, bigFraction.Denominator));
+                return (decimal)intPart + floatPart;
+            }
+            else
+            {
+                if (bigFraction.Numerator == 0)
+                    return 0;
+                else
+                    return 1 / DecimalScale(new BigFraction(bigFraction.Denominator, bigFraction.Numerator)); ;
+            }
         }
 
         //Conversion from double to fraction
