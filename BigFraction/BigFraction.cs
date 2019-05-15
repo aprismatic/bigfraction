@@ -253,19 +253,18 @@ namespace Aprismatic
             if (bigFraction.Numerator <= MAX_DECIMAL && bigFraction.Numerator >= MIN_DECIMAL &&
                 bigFraction.Denominator <= MAX_DECIMAL && bigFraction.Denominator >= MIN_DECIMAL)
                 return (decimal)bigFraction.Numerator / (decimal)bigFraction.Denominator;
+
             var intPart = bigFraction.Numerator / bigFraction.Denominator;
-            decimal floatPart = 0;
             if (intPart != 0)
             {
-                floatPart = DecimalScale(new BigFraction(bigFraction.Numerator - intPart * bigFraction.Denominator, bigFraction.Denominator));
-                return (decimal)intPart + floatPart;
+                return (decimal)intPart + DecimalScale(bigFraction - intPart);
             }
             else
             {
                 if (bigFraction.Numerator == 0)
                     return 0;
                 else
-                    return 1 / DecimalScale(new BigFraction(bigFraction.Denominator, bigFraction.Numerator)); ;
+                    return 1 / DecimalScale(1 / bigFraction); ;
             }
         }
 
