@@ -9,6 +9,9 @@ namespace Aprismatic
         public BigInteger Numerator { get; private set; }
         public BigInteger Denominator { get; private set; }
 
+        private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
+        private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
+
         //CONSTRUCTORS
 
         //Fractional constructor
@@ -159,33 +162,27 @@ namespace Aprismatic
         //Operator -
         public static BigFraction operator -(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator - b.Numerator * a.Denominator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator - b.Numerator * a.Denominator,
+                a.Denominator * b.Denominator);
         }
 
         //Operator +
         public static BigFraction operator +(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator + b.Numerator * a.Denominator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator + b.Numerator * a.Denominator,
+                a.Denominator * b.Denominator);
         }
 
         //Operator *
         public static BigFraction operator *(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Numerator;
-            a.Denominator = a.Denominator * b.Denominator;
-            return a;
+            return new BigFraction(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
         }
 
         //Operator /
         public static BigFraction operator /(BigFraction a, BigFraction b)
         {
-            a.Numerator = a.Numerator * b.Denominator;
-            a.Denominator = a.Denominator * b.Numerator;
-            return a;
+            return new BigFraction(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
         }
 
         //Override Equals
@@ -242,7 +239,27 @@ namespace Aprismatic
 
         public decimal ToDecimal()
         {
-            return (decimal)Numerator / (decimal)Denominator;
+            return DecimalScale(this);
+        }
+
+        private static decimal DecimalScale(BigFraction bigFraction)
+        {
+            if (bigFraction.Numerator <= MAX_DECIMAL && bigFraction.Numerator >= MIN_DECIMAL &&
+                bigFraction.Denominator <= MAX_DECIMAL && bigFraction.Denominator >= MIN_DECIMAL)
+                return (decimal)bigFraction.Numerator / (decimal)bigFraction.Denominator;
+
+            var intPart = bigFraction.Numerator / bigFraction.Denominator;
+            if (intPart != 0)
+            {
+                return (decimal)intPart + DecimalScale(bigFraction - intPart);
+            }
+            else
+            {
+                if (bigFraction.Numerator == 0)
+                    return 0;
+                else
+                    return 1 / DecimalScale(1 / bigFraction); ;
+            }
         }
 
         //Conversion from double to fraction

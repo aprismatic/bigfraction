@@ -401,3 +401,82 @@ namespace MiscTest
         }
     }
 }
+
+namespace DecimalScaleTest
+{
+    public class DecimalScaleTest
+    {
+        [Fact(DisplayName = "( > MAX ) / ( < MAX )")]
+        public void Case1()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue) * 10, new BigInteger(decimal.MaxValue) - 1);
+            var a = bigA.ToDecimal();
+            Assert.Equal(10m, a);
+        }
+
+        [Fact(DisplayName = "( < MAX ) / ( > MAX )")]
+        public void Case2()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue) / 2, new BigInteger(decimal.MaxValue) * 10);
+            var a = bigA.ToDecimal();
+            Assert.Equal(0.05m, a);
+        }
+
+        [Fact(DisplayName = "( > MAX ) / ( > MAX )")]
+        public void Case3()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue) * 100, new BigInteger(decimal.MaxValue) * 10);
+            var a = bigA.ToDecimal();
+            Assert.Equal(10m, a);
+        }
+
+        [Fact(DisplayName = "( < MIN ) / ( < MAX )")]
+        public void Case4()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MinValue) * 10, new BigInteger(decimal.MaxValue) / 2);
+            var a = bigA.ToDecimal();
+            Assert.Equal(-20m, a);
+        }
+
+        [Fact(DisplayName = "( < MIN ) / ( > MAX )")]
+        public void Case5()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MinValue) * 10, new BigInteger(decimal.MaxValue) * 20);
+            var a = bigA.ToDecimal();
+            Assert.Equal(-0.5m, a);
+        }
+
+        [Fact(DisplayName = "( < MIN ) / ( < MIN )")]
+        public void Case6()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MinValue) * 10, new BigInteger(decimal.MinValue) / 2);
+            var a = bigA.ToDecimal();
+            Assert.Equal(20m, a);
+        }
+
+        [Fact(DisplayName = "( < MAX ) / ( < MIN )")]
+        public void Case7()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue) / 2, new BigInteger(decimal.MinValue) * 5);
+            var a = bigA.ToDecimal();
+            Assert.Equal(-0.1m, a);
+        }
+
+        [Fact(DisplayName = "( > MAX ) / ( < MIN )")]
+        public void Case8()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue) * 10, new BigInteger(decimal.MinValue) * 5);
+            var a = bigA.ToDecimal();
+            Assert.Equal(-2m, a);
+        }
+
+
+        [Fact(DisplayName = "( = MAX ) / ( = MIN )")]
+        public void Case9()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MinValue));
+            var a = bigA.ToDecimal();
+            Assert.Equal(-1m, a);
+        }
+    }
+}
