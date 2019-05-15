@@ -469,5 +469,14 @@ namespace DecimalScaleTest
             var a = bigA.ToDecimal();
             Assert.Equal(-2m, a);
         }
+
+
+        [Fact(DisplayName = "( = MAX ) / ( = MIN )")]
+        public void Case9()
+        {
+            BigFraction bigA = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MinValue));
+            var a = bigA.ToDecimal();
+            Assert.Equal(-1m, a);
+        }
     }
 }
