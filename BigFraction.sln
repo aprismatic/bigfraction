@@ -1,17 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigFraction", "BigFraction\BigFraction.csproj", "{1D0E65A6-DBED-4840-AA56-03298D024FC7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3303BAA0-773E-4F5D-B699-F3CA3CD5BBB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigFractionTest", "BigFractionTest\BigFractionTest.csproj", "{5C55814E-D74F-4DE3-9889-B67F4A473671}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9993F7DE-AFDC-4D82-A030-C3C5E373CE77}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFE26125-2566-42ED-B9D3-2559DB88D357}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{9336DBF6-976F-4D04-A6E4-7E301C68A9B3}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		appveyor.yml = appveyor.yml
+		.github\workflows\release-dotnet-nuget.yml = .github\workflows\release-dotnet-nuget.yml
+		.github\workflows\test-dotnet-windows.yml = .github\workflows\test-dotnet-windows.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2955983D-FEC3-4C34-8890-DD89658479E9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		nuget.config = nuget.config
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aprismatic.BigFraction", "src\Aprismatic.BigFraction\Aprismatic.BigFraction.csproj", "{671B62C9-5C1F-45BE-A064-85113E652AFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigFractionTest", "test\BigFractionTest\BigFractionTest.csproj", "{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,19 +32,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1D0E65A6-DBED-4840-AA56-03298D024FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D0E65A6-DBED-4840-AA56-03298D024FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D0E65A6-DBED-4840-AA56-03298D024FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D0E65A6-DBED-4840-AA56-03298D024FC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C55814E-D74F-4DE3-9889-B67F4A473671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C55814E-D74F-4DE3-9889-B67F4A473671}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C55814E-D74F-4DE3-9889-B67F4A473671}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C55814E-D74F-4DE3-9889-B67F4A473671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671B62C9-5C1F-45BE-A064-85113E652AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671B62C9-5C1F-45BE-A064-85113E652AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671B62C9-5C1F-45BE-A064-85113E652AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671B62C9-5C1F-45BE-A064-85113E652AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{671B62C9-5C1F-45BE-A064-85113E652AFF} = {3303BAA0-773E-4F5D-B699-F3CA3CD5BBB4}
+		{164B4DA8-0D9B-47F4-932B-CA1E4DA54A3F} = {9993F7DE-AFDC-4D82-A030-C3C5E373CE77}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {50D9C49D-D8D9-4760-9248-3EB03BE91FA4}
+		SolutionGuid = {575666A0-07A3-4BB3-95A8-281FA6583CE7}
 	EndGlobalSection
 EndGlobal
