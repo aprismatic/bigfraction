@@ -5,9 +5,8 @@
     <Company>Aprismatic</Company>
     <Copyright>(c) Aprismatic Pte. Ltd. All rights reserved.</Copyright>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://i.ibb.co/SmV2V0m/aprismatic.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/aprismatic/dotnet-template</RepositoryUrl>
+    <RepositoryUrl>https://github.com/aprismatic/bigfraction</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
