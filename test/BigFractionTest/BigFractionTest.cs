@@ -480,3 +480,48 @@ namespace DecimalScaleTest
         }
     }
 }
+
+namespace FieldTest
+{
+    public class FieldTest
+    {
+        [Fact(DisplayName = "Sign")]
+        public void SignTest()
+        {
+            Assert.Equal(1, new BigFraction(0.5).Sign);
+            Assert.Equal(0, new BigFraction(0).Sign);
+            Assert.Equal(-1, new BigFraction(-2.5).Sign);
+
+            Assert.Equal(1, new BigFraction(new BigInteger(5), new BigInteger(7)).Sign);
+            Assert.Equal(1, new BigFraction(new BigInteger(-9), new BigInteger(-8)).Sign);
+            Assert.Equal(-1, new BigFraction(new BigInteger(-5), new BigInteger(7)).Sign);
+            Assert.Equal(-1, new BigFraction(new BigInteger(5), new BigInteger(-7)).Sign);
+            Assert.Equal(-1, new BigFraction(new BigInteger(9), new BigInteger(-8)).Sign);
+            Assert.Equal(-1, new BigFraction(new BigInteger(-9), new BigInteger(8)).Sign);
+            Assert.Equal(0, new BigFraction(BigInteger.Zero, BigInteger.One).Sign);
+            Assert.Equal(0, new BigFraction(BigInteger.Zero, BigInteger.MinusOne).Sign);
+        }
+
+        [Fact(DisplayName = "IsOne")]
+        public void IsOneTest()
+        {
+            Assert.True(new BigFraction(BigInteger.One, BigInteger.One).IsOne);
+            Assert.True(new BigFraction(BigInteger.MinusOne, BigInteger.MinusOne).IsOne);
+            Assert.False(new BigFraction(BigInteger.One, BigInteger.MinusOne).IsOne);
+            Assert.False(new BigFraction(BigInteger.MinusOne, BigInteger.One).IsOne);
+            Assert.False(new BigFraction(BigInteger.Zero, BigInteger.One).IsOne);
+            Assert.False(new BigFraction(BigInteger.Zero, BigInteger.MinusOne).IsOne);
+        }
+
+        [Fact(DisplayName = "IsZero")]
+        public void IsZeroTest()
+        {
+            Assert.False(new BigFraction(BigInteger.One, BigInteger.One).IsZero);
+            Assert.False(new BigFraction(BigInteger.MinusOne, BigInteger.MinusOne).IsZero);
+            Assert.False(new BigFraction(BigInteger.One, BigInteger.MinusOne).IsZero);
+            Assert.False(new BigFraction(BigInteger.MinusOne, BigInteger.One).IsZero);
+            Assert.True(new BigFraction(BigInteger.Zero, BigInteger.One).IsZero);
+            Assert.True(new BigFraction(BigInteger.Zero, BigInteger.MinusOne).IsZero);
+        }
+    }
+}

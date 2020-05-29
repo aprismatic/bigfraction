@@ -12,6 +12,19 @@ namespace Aprismatic
         private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
         private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
 
+        // FIELDS
+        public int Sign =>
+            Numerator.IsZero
+            ? 0
+            : Numerator.Sign == Denominator.Sign
+                ? 1
+                : -1;
+
+        public bool IsZero => Numerator.IsZero;
+
+        public bool IsOne => Numerator == Denominator;
+
+
         //CONSTRUCTORS
 
         //Fractional constructor
@@ -61,40 +74,22 @@ namespace Aprismatic
         //OPERATORS
 
         //User-defined conversion from BigInteger to BigFraction
-        public static implicit operator BigFraction(BigInteger integer)
-        {
-            return new BigFraction(integer);
-        }
+        public static implicit operator BigFraction(BigInteger integer) => new BigFraction(integer);
 
         //User-defined conversion from Decimal to BigFraction
-        public static implicit operator BigFraction(decimal dec)
-        {
-            return new BigFraction(dec);
-        }
+        public static implicit operator BigFraction(decimal dec) => new BigFraction(dec);
 
         //User-defined conversion from Double to BigFraction
-        public static implicit operator BigFraction(double d)
-        {
-            return new BigFraction(d);
-        }
+        public static implicit operator BigFraction(double d) => new BigFraction(d);
 
         //User-defined conversion from Long to BigFraction
-        public static implicit operator BigFraction(long l)
-        {
-            return new BigFraction(l);
-        }
+        public static implicit operator BigFraction(long l) => new BigFraction(l);
 
         //User-defined conversion from Integer to BigFraction
-        public static implicit operator BigFraction(int i)
-        {
-            return new BigFraction(i);
-        }
+        public static implicit operator BigFraction(int i) => new BigFraction(i);
 
         //Unary minus
-        public static BigFraction operator -(BigFraction value)
-        {
-            return value * -1;
-        }
+        public static BigFraction operator -(BigFraction value) => new BigFraction(-value.Numerator, value.Denominator);
 
         //Operator %
         public static BigFraction operator %(BigFraction r, BigInteger mod)
@@ -119,8 +114,7 @@ namespace Aprismatic
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == -1) { return true; }
-            else { return false; }
+            return r1compare.CompareTo(r2compare) == -1;
         }
 
         //Operator ==
@@ -128,8 +122,7 @@ namespace Aprismatic
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == 0) { return true; }
-            else { return false; }
+            return r1compare.CompareTo(r2compare) == 0;
         }
 
         //Operator !=
@@ -137,8 +130,7 @@ namespace Aprismatic
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == 0) { return false; }
-            else { return true; }
+            return !(r1compare.CompareTo(r2compare) == 0);
         }
 
         //Operator <=
@@ -146,8 +138,7 @@ namespace Aprismatic
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0) { return true; }
-            else { return false; }
+            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
         }
 
         //Operator >=
@@ -155,8 +146,7 @@ namespace Aprismatic
         {
             BigInteger r1compare = r1.Numerator * r2.Denominator;
             BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0) { return true; }
-            else { return false; }
+            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
         }
 
         //Operator -
@@ -188,12 +178,11 @@ namespace Aprismatic
         //Override Equals
         public override bool Equals(object obj)
         {
-            if (obj is BigFraction comparebigfrac)
-            {
-                if (Numerator == 0 && comparebigfrac.Numerator == 0) { return true; }    //If both values are zero
-                return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
-            }
-            return false;
+            if (!(obj is BigFraction comparebigfrac)) return false;
+
+            if (Numerator == 0 && comparebigfrac.Numerator == 0) return true; // if both values are zero
+
+            return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
         }
 
         //Override GetHashCode
@@ -205,7 +194,7 @@ namespace Aprismatic
         //Override ToString
         public override string ToString()
         {
-            return Numerator.ToString() + "/" + Denominator.ToString();
+            return "(" + Numerator.ToString() + "/" + Denominator.ToString() + ")";
         }
 
         //MISC
@@ -222,25 +211,13 @@ namespace Aprismatic
         }
 
         //NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
-        public BigInteger ToBigInteger()
-        {
-            return Numerator / Denominator;
-        }
+        public BigInteger ToBigInteger() => Numerator / Denominator;
 
-        public float ToFloat()
-        {
-            return (float)Numerator / (float)Denominator;
-        }
+        public float ToFloat() => (float)Numerator / (float)Denominator;
 
-        public double ToDouble()
-        {
-            return (double)Numerator / (double)Denominator;
-        }
+        public double ToDouble() => (double)Numerator / (double)Denominator;
 
-        public decimal ToDecimal()
-        {
-            return DecimalScale(this);
-        }
+        public decimal ToDecimal() => DecimalScale(this);
 
         private static decimal DecimalScale(BigFraction bigFraction)
         {
@@ -268,7 +245,7 @@ namespace Aprismatic
         {
             if (accuracy <= 0.0 || accuracy >= 1.0)
             {
-                throw new ArgumentOutOfRangeException("accuracy", "Must be > 0 and < 1.");
+                throw new ArgumentOutOfRangeException(nameof(accuracy), "must be > 0 and < 1");
             }
 
             var sign = Math.Sign(value);
