@@ -12,6 +12,10 @@ namespace Aprismatic
         private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
         private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
 
+        public static readonly BigFraction MinusOne = new BigFraction(BigInteger.MinusOne, BigInteger.One);
+        public static readonly BigFraction Zero = new BigFraction(BigInteger.Zero, BigInteger.One);
+        public static readonly BigFraction One = new BigFraction(BigInteger.One, BigInteger.One);
+
         // FIELDS
         public int Sign =>
             Numerator.IsZero
