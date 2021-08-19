@@ -523,5 +523,16 @@ namespace FieldTest
             Assert.True(new BigFraction(BigInteger.Zero, BigInteger.One).IsZero);
             Assert.True(new BigFraction(BigInteger.Zero, BigInteger.MinusOne).IsZero);
         }
+
+        [Fact(DisplayName = "Pre-defined")]
+        public void PreDefinedTest()
+        {
+            Assert.True(BigFraction.One.IsOne);
+            Assert.True(BigFraction.Zero.IsZero);
+            Assert.True((-BigFraction.MinusOne).IsOne);
+            Assert.Equal(new BigFraction(1), BigFraction.One);
+            Assert.Equal(new BigFraction(0), BigFraction.Zero);
+            Assert.Equal(new BigFraction(-1), BigFraction.MinusOne);
+        }
     }
 }
