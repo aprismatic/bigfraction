@@ -253,41 +253,39 @@ namespace Aprismatic
             }
 
             var sign = Math.Sign(value);
+            var signbi =
+                sign == -1 ? BigInteger.MinusOne :
+                sign == 0 ? BigInteger.Zero :
+                BigInteger.One;
 
             if (sign == -1)
-            {
                 value = Math.Abs(value);
-            }
 
             // Accuracy is the maximum relative error; convert to absolute maxError
-            double maxError = sign == 0 ? accuracy : value * accuracy;
+            var maxError = sign == 0 ? accuracy : value * accuracy;
 
             var n = new BigInteger(value);
             value -= Math.Floor(value);
 
             if (value < maxError)
-            {
-                return new BigFraction(sign * n, BigInteger.One);
-            }
+                return new BigFraction(signbi * n, BigInteger.One);
 
             if (1 - maxError < value)
-            {
-                return new BigFraction(sign * (n + 1), BigInteger.One);
-            }
+                return new BigFraction(signbi * (n + BigInteger.One), BigInteger.One);
 
             // The lower fraction is 0/1
-            int lower_n = 0;
-            int lower_d = 1;
+            var lower_n = 0;
+            var lower_d = 1;
 
             // The upper fraction is 1/1
-            int upper_n = 1;
-            int upper_d = 1;
+            var upper_n = 1;
+            var upper_d = 1;
 
             while (true)
             {
                 // The middle fraction is (lower_n + upper_n) / (lower_d + upper_d)
-                int middle_n = lower_n + upper_n;
-                int middle_d = lower_d + upper_d;
+                var middle_n = lower_n + upper_n;
+                var middle_d = lower_d + upper_d;
 
                 if (middle_d * (value + maxError) < middle_n)
                 {
@@ -304,7 +302,8 @@ namespace Aprismatic
                 else
                 {
                     // Middle is our best fraction
-                    return new BigFraction((n * middle_d + middle_n) * sign, middle_d);
+                    var middle_d_bi = new BigInteger(middle_d);
+                    return new BigFraction((n * middle_d_bi + middle_n) * signbi, middle_d_bi);
                 }
             }
         }
