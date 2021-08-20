@@ -18,49 +18,63 @@ namespace ConstructorTest
         [Fact(DisplayName = "Integer")]
         public void IntConstructor()
         {
-            BigFraction a = new BigFraction(-10);
-            BigFraction expected = new BigFraction(new BigInteger(-10), BigInteger.One);
+            var a = new BigFraction(-10);
+            var expected = new BigFraction(new BigInteger(-10), BigInteger.One);
             Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Long")]
         public void LongConstructor()
         {
-            BigFraction a = new BigFraction(12147483647);
-            BigFraction expected = new BigFraction(new BigInteger(12147483647), BigInteger.One);
+            var a = new BigFraction(12147483647);
+            var expected = new BigFraction(new BigInteger(12147483647), BigInteger.One);
             Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Double")]
         public void DouConstructor()
         {
-            BigFraction a = new BigFraction(6545.99);
-            BigFraction expected = new BigFraction(new BigInteger(654599), new BigInteger(100));
+            var a = new BigFraction(6545.99);
+            var expected = new BigFraction(new BigInteger(654599), new BigInteger(100));
             Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "Decimal")]
         public void DecConstructor()
         {
-            BigFraction a = new BigFraction(new decimal(8984.65));
-            BigFraction expected = new BigFraction(new BigInteger(898465), new BigInteger(100));
+            var a = new BigFraction(new decimal(8984.65));
+            var expected = new BigFraction(new BigInteger(898465), new BigInteger(100));
             Assert.Equal(expected, a);
         }
 
         [Fact(DisplayName = "BigInteger")]
         public void BigIntConstructor()
         {
-            BigFraction a = new BigFraction(new BigInteger(33));
-            BigFraction expected = new BigFraction(new BigInteger(33), new BigInteger(1));
+            var a = new BigFraction(new BigInteger(33));
+            var expected = new BigFraction(new BigInteger(33), new BigInteger(1));
             Assert.Equal(expected, a);
         }
 
-        [Fact(DisplayName = "Fractional")]
+        [Fact(DisplayName = "Fractions")]
         public void FracConstructor()
         {
-            BigFraction a = new BigFraction(new BigInteger(3300), new BigInteger(9900));
-            BigFraction expected = new BigFraction(new BigInteger(33), new BigInteger(99));
-            Assert.Equal(expected, a);
+            var bibi = new BigFraction(new BigInteger(3300), new BigInteger(9900));
+            var expected = new BigFraction(new BigInteger(33), new BigInteger(99));
+            Assert.Equal(new BigInteger(3300), bibi.Numerator);
+            Assert.Equal(new BigInteger(9900), bibi.Denominator);
+            Assert.Equal(expected, bibi);
+
+            var inin = new BigFraction(132, 26);
+            expected = new BigFraction(new BigInteger(66), new BigInteger(13));
+            Assert.Equal(new BigInteger(132), inin.Numerator);
+            Assert.Equal(new BigInteger(26), inin.Denominator);
+            Assert.Equal(expected, inin);
+
+            var lolo = new BigFraction(222L, 50L);
+            expected = new BigFraction(new BigInteger(111), new BigInteger(25));
+            Assert.Equal(new BigInteger(222), lolo.Numerator);
+            Assert.Equal(new BigInteger(50), lolo.Denominator);
+            Assert.Equal(expected, lolo);
         }
     }
 }

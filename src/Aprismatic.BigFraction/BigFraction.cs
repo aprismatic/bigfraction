@@ -38,6 +38,18 @@ namespace Aprismatic
             Denominator = den;
         }
 
+        public BigFraction(int num, int den)
+        {
+            Numerator = new BigInteger(num);
+            Denominator = new BigInteger(den);
+        }
+
+        public BigFraction(long num, long den)
+        {
+            Numerator = new BigInteger(num);
+            Denominator = new BigInteger(den);
+        }
+
         //BigInteger constructor
         public BigFraction(BigInteger num)
         {
@@ -184,7 +196,7 @@ namespace Aprismatic
         {
             if (!(obj is BigFraction comparebigfrac)) return false;
 
-            if (Numerator == 0 && comparebigfrac.Numerator == 0) return true; // if both values are zero
+            if (IsZero && comparebigfrac.IsZero) return true;
 
             return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
         }
@@ -223,7 +235,7 @@ namespace Aprismatic
 
         public decimal ToDecimal()
         {
-            if (Numerator == 0)
+            if (IsZero)
                 return 0;
 
             if (Numerator <= MAX_DECIMAL && Numerator >= MIN_DECIMAL &&
