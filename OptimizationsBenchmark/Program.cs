@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Aprismatic;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
@@ -9,24 +10,34 @@ namespace OptimizationsBenchmark
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<FromDouble>();
+            var summary = BenchmarkRunner.Run<ToDecimal>();
         }
     }
 
-    public class FromDouble
+    public class ToDecimal
     {
-        private readonly double val;
+        private readonly BigFraction val_lt1, val_gt1;
         private readonly Random rnd = new();
 
-        public FromDouble()
+        public ToDecimal()
         {
-            val = rnd.NextDouble() * rnd.Next() * (-1);
+            val_lt1 = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MaxValue)) *
+                      new BigFraction(BigInteger.One, new BigInteger(2));
+            val_gt1 = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MaxValue)) * 2;
+
+            Console.WriteLine(val_lt1);
         }
 
+        [Benchmark]
+        public decimal Old_LT1() => val_lt1.ToDecimal();
+
         //[Benchmark]
-        //public BigFraction Old() => BigFraction.FromDoubleOld(val, 1e-15);
+        //public decimal New_LT1() => val_lt1.ToDecimalNew();
 
         [Benchmark]
-        public BigFraction New() => BigFraction.FromDouble(val, 1e-15);
+        public decimal Old_GT1() => val_gt1.ToDecimal();
+
+        //[Benchmark]
+        //public decimal New_GT1() => val_gt1.ToDecimalNew();
     }
 }

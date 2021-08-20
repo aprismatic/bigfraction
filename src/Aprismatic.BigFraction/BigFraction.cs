@@ -221,26 +221,22 @@ namespace Aprismatic
 
         public double ToDouble() => (double)Numerator / (double)Denominator;
 
-        public decimal ToDecimal() => DecimalScale(this);
-
-        private static decimal DecimalScale(BigFraction bigFraction)
+        public decimal ToDecimal()
         {
-            if (bigFraction.Numerator <= MAX_DECIMAL && bigFraction.Numerator >= MIN_DECIMAL &&
-                bigFraction.Denominator <= MAX_DECIMAL && bigFraction.Denominator >= MIN_DECIMAL)
-                return (decimal)bigFraction.Numerator / (decimal)bigFraction.Denominator;
+            if (Numerator == 0)
+                return 0;
 
-            var intPart = bigFraction.Numerator / bigFraction.Denominator;
+            if (Numerator <= MAX_DECIMAL && Numerator >= MIN_DECIMAL &&
+                Denominator <= MAX_DECIMAL && Denominator >= MIN_DECIMAL)
+                return (decimal)Numerator / (decimal)Denominator;
+
+            var intPart = Numerator / Denominator;
+
             if (intPart != 0)
-            {
-                return (decimal)intPart + DecimalScale(bigFraction - intPart);
-            }
-            else
-            {
-                if (bigFraction.Numerator == 0)
-                    return 0;
-                else
-                    return 1 / DecimalScale(1 / bigFraction); ;
-            }
+                return (decimal)intPart + (this - intPart).ToDecimal();
+
+            var thisinverse = new BigFraction(Denominator, Numerator); // == 1 / this
+            return 1 / thisinverse.ToDecimal();
         }
 
         //Conversion from double to fraction
