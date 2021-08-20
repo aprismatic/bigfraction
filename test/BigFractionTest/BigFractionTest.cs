@@ -198,9 +198,14 @@ namespace OperatorTest
         [Fact(DisplayName = ">")]
         public void Greater()
         {
-            BigFraction a = new BigFraction(5.25);
-            BigFraction b = new BigFraction(4.20);
+            var a = new BigFraction(5.25);
+            var b = new BigFraction(4.20);
             Assert.True(a > b);
+            Assert.False(b > a);
+            Assert.True(a > -b);
+            Assert.True(b > -a);
+            Assert.False(-a > b);
+            Assert.False(-a > -b);
         }
 
         [Fact(DisplayName = "<")]
@@ -248,91 +253,200 @@ namespace OperatorTest
         [Fact(DisplayName = "+")]
         public void Addition()
         {
-            BigFraction a = new BigFraction(1000.25);
-            BigFraction c = a + 1000.25;
-            BigFraction d = a + new decimal(1000.25);
-            BigFraction expected = new BigFraction(2000.5);
+            var a = new BigFraction(1000.25);
+            var c = a + 1000.25;
+            var d = a + new decimal(1000.25);
+            var e = a + BigInteger.One;
+            var f = BigInteger.One + a;
+            var expected = new BigFraction(2000.5);
+            var expected2 = new BigFraction(1001.25);
             Assert.Equal(expected, c);
             Assert.Equal(expected, d);
+            Assert.Equal(expected2, e);
+            Assert.Equal(expected2, f);
+            Assert.Equal(a, a + BigFraction.Zero);
+            Assert.Equal(a, BigFraction.Zero + a);
         }
 
         [Fact(DisplayName = "-")]
         public void Subtraction()
         {
-            BigFraction a = new BigFraction(2000.5);
-            BigFraction c = a - 1000.25;
-            BigFraction d = a - new decimal(1000.25);
-            BigFraction expected = new BigFraction(1000.25);
+            var a = new BigFraction(2000.5);
+            var c = a - 1000.25;
+            var d = a - new decimal(1000.25);
+            var e = a - BigInteger.One;
+            var f = BigInteger.One - a;
+            var expected = new BigFraction(1000.25);
+            var expected2 = new BigFraction(1999.5);
+            var expected3 = new BigFraction(-1999.5);
             Assert.Equal(expected, c);
             Assert.Equal(expected, d);
+            Assert.Equal(expected2, e);
+            Assert.Equal(expected3, f);
+            Assert.Equal(a, a - BigInteger.Zero);
+            Assert.Equal(-a, BigInteger.Zero - a);
         }
 
         [Fact(DisplayName = "*")]
         public void Mulplication()
         {
-            BigFraction a = new BigFraction(-5.25);
-            BigFraction c = a * 10.1;
-            BigFraction d = a * new decimal(10.1);
-            BigFraction expected = new BigFraction(-53.025);
+            var a = new BigFraction(-5.25);
+            var c = a * 10.1;
+            var d = a * new decimal(10.1);
+            var e = a * new BigInteger(2);
+            var f = new BigInteger(2) * a;
+            var expected = new BigFraction(-53.025);
+            var expected2 = new BigFraction(-10.5);
             Assert.Equal(expected, c);
             Assert.Equal(expected, d);
+            Assert.Equal(expected2, e);
+            Assert.Equal(expected2, f);
+            Assert.True((a * BigInteger.Zero).IsZero);
+            Assert.True((BigInteger.Zero * a).IsZero);
+            Assert.Equal(a, a * BigInteger.One);
+            Assert.Equal(a, BigInteger.One * a);
         }
 
         [Fact(DisplayName = "/")]
         public void Division()
         {
-            BigFraction a = new BigFraction(-5.25);
-            BigFraction c = a / -1.25;
-            BigFraction d = a / new decimal(-1.25);
-            BigFraction expected = new BigFraction(4.20);
+            var a = new BigFraction(-5.25);
+            var c = a / -1.25;
+            var d = a / new decimal(-1.25);
+            var e = a / new BigInteger(2);
+            var f = new BigInteger(21) / a;
+            var expected = new BigFraction(4.20);
+            var expected2 = new BigFraction(-2.625);
+            var expected3 = new BigFraction(-4);
             Assert.Equal(expected, c);
             Assert.Equal(expected, d);
+            Assert.Equal(expected2,e);
+            Assert.Equal(expected3, f);
+            Assert.Equal(BigFraction.Zero, BigInteger.Zero / a);
+            Assert.Equal(a, a / BigInteger.One);
         }
 
         [Fact(DisplayName = "%")]
         public void Modulus()
         {
-            BigFraction a = new BigFraction(5.25);
-            BigFraction c = a % 5;
-            BigFraction expected = new BigFraction(0.25);
+            var a = new BigFraction(5.25);
+            var c = a % 5;
+            var expected = new BigFraction(0.25);
             Assert.Equal(expected, c);
         }
 
         [Fact(DisplayName = ">")]
         public void Greater()
         {
-            BigFraction a = new BigFraction(5.25);
+            var a = new BigFraction(5.25);
             Assert.True(a > 4.2);
+            Assert.False(a > 6.8);
+            Assert.True(a > BigInteger.One);
+            Assert.False(-a > BigInteger.One);
+            Assert.False(BigInteger.MinusOne > a);
+            Assert.True(BigInteger.MinusOne > -a);
         }
 
         [Fact(DisplayName = "<")]
         public void Smaller()
         {
-            BigFraction a = new BigFraction(-251.15);
+            var a = new BigFraction(-251.15);
             Assert.True(a < 4.2);
+            Assert.False(a < -300);
+            Assert.False(a > BigInteger.One);
+            Assert.True(-a > BigInteger.One);
+            Assert.True(BigInteger.MinusOne > a);
+            Assert.False(BigInteger.One > -a);
         }
 
         [Fact(DisplayName = ">=")]
         public void GreaterEqual()
         {
-            BigFraction a = new BigFraction(251.15);
+            var a = new BigFraction(251.15);
             Assert.True(a >= 251.15);
             Assert.True(a >= 4.2);
+            Assert.False(a >= 300.1);
+            Assert.True(-a >= -251.15);
+            Assert.False(-a >= 4.2);
+            Assert.True(-a >= -300.1);
+
+            var b = new BigFraction(100);
+            Assert.True(b >= new BigInteger(100));
+            Assert.True(b >= BigInteger.One);
+            Assert.True(b >= BigInteger.MinusOne);
+            Assert.False(b >= new BigInteger(120));
+            Assert.True(-b >= new BigInteger(-100));
+            Assert.False(-b >= BigInteger.One);
+            Assert.False(-b >= BigInteger.MinusOne);
+            Assert.True(-b >= new BigInteger(-120));
+
+            Assert.True(new BigInteger(100) >= b);
+            Assert.False(BigInteger.One >= b);
+            Assert.False(BigInteger.MinusOne >= b);
+            Assert.True(new BigInteger(120) >= b);
+            Assert.True(new BigInteger(-100) >= -b);
+            Assert.True(BigInteger.One >= -b);
+            Assert.True(BigInteger.MinusOne >= -b);
+            Assert.False(new BigInteger(-120) >= -b);
         }
 
         [Fact(DisplayName = "<=")]
         public void SmallerEqual()
         {
-            BigFraction a = new BigFraction(-251.15);
+            var a = new BigFraction(-251.15);
             Assert.True(a <= 4.2);
             Assert.True(a <= -251.15);
+            Assert.False(a <= -300.1);
+            Assert.True(-a <= 251.15);
+            Assert.False(-a <= -4.2);
+            Assert.True(-a <= 300.1);
+
+            var b = new BigFraction(-100);
+            Assert.True(b <= new BigInteger(-100));
+            Assert.True(b <= BigInteger.One);
+            Assert.True(b <= BigInteger.MinusOne);
+            Assert.False(b <= new BigInteger(-120));
+            Assert.True(-b <= new BigInteger(100));
+            Assert.False(-b <= BigInteger.One);
+            Assert.False(-b <= BigInteger.MinusOne);
+            Assert.True(-b <= new BigInteger(120));
+
+            Assert.True(new BigInteger(-100) <= b);
+            Assert.False(BigInteger.One <= b);
+            Assert.False(BigInteger.MinusOne <= b);
+            Assert.True(new BigInteger(-120) <= b);
+            Assert.True(new BigInteger(100) <= -b);
+            Assert.True(BigInteger.One <= -b);
+            Assert.True(BigInteger.MinusOne <= -b);
+            Assert.False(new BigInteger(120) <= -b);
         }
 
         [Fact(DisplayName = "==")]
         public void Equal()
         {
-            BigFraction a = new BigFraction(-251.15);
+            var a = new BigFraction(-251.15);
             Assert.True(a == -251.15);
+            Assert.False(a == 123);
+
+            var b = new BigFraction(40, 20);
+            Assert.True(b == new BigInteger(2));
+            Assert.True(new BigInteger(2) == b);
+            Assert.False(b == new BigInteger(3));
+            Assert.False(new BigInteger(3) == b);
+        }
+
+        [Fact(DisplayName = "!=")]
+        public void NotEqual()
+        {
+            var a = new BigFraction(51.45);
+            Assert.True(a != -25);
+            Assert.False(a != 51.45);
+
+            var b = new BigFraction(40, 20);
+            Assert.False(b != new BigInteger(2));
+            Assert.False(new BigInteger(2) != b);
+            Assert.True(b != new BigInteger(3));
+            Assert.True(new BigInteger(3) != b);
         }
     }
 }

@@ -10,34 +10,62 @@ namespace OptimizationsBenchmark
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<ToDecimal>();
+            var summary = BenchmarkRunner.Run<Operators>();
         }
     }
 
-    public class ToDecimal
+    public class Operators
     {
-        private readonly BigFraction val_lt1, val_gt1;
+        private readonly BigFraction bf;
+        private readonly BigInteger bi;
         private readonly Random rnd = new();
 
-        public ToDecimal()
+        public Operators()
         {
-            val_lt1 = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MaxValue)) *
-                      new BigFraction(BigInteger.One, new BigInteger(2));
-            val_gt1 = new BigFraction(new BigInteger(decimal.MaxValue), new BigInteger(decimal.MaxValue)) * 2;
-
-            Console.WriteLine(val_lt1);
+            bf = new BigFraction(123456.3456);
+            bi = new BigInteger(43765);
         }
 
         [Benchmark]
-        public decimal Old_LT1() => val_lt1.ToDecimal();
-
-        //[Benchmark]
-        //public decimal New_LT1() => val_lt1.ToDecimalNew();
+        public BigFraction AddOld() => bf + new BigFraction(bi);
 
         [Benchmark]
-        public decimal Old_GT1() => val_gt1.ToDecimal();
+        public BigFraction AddNew() => bf + bi;
 
-        //[Benchmark]
-        //public decimal New_GT1() => val_gt1.ToDecimalNew();
+        [Benchmark]
+        public BigFraction SubOld() => bf - new BigFraction(bi);
+
+        [Benchmark]
+        public BigFraction SubNew() => bf - bi;
+
+        [Benchmark]
+        public BigFraction DivOld() => bf / new BigFraction(bi);
+
+        [Benchmark]
+        public BigFraction DivNew() => bf / bi;
+
+        [Benchmark]
+        public BigFraction MulOld() => bf * new BigFraction(bi);
+
+        [Benchmark]
+        public BigFraction MulNew() => bf * bi;
+
+        [Benchmark]
+        public bool EqOld() => bf == new BigFraction(bi);
+
+        [Benchmark]
+        public bool EqNew() => bf == bi;
+
+        [Benchmark]
+        public bool NeqOld() => bf != new BigFraction(bi);
+
+        [Benchmark]
+        public bool NeqNew() => bf != bi;
+
+        [Benchmark]
+        public bool GtOld() => bf > new BigFraction(bi);
+
+        [Benchmark]
+        public bool GtNew() => bf > bi;
     }
 }
