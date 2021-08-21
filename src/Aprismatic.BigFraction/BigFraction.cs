@@ -38,6 +38,18 @@ namespace Aprismatic
             Denominator = den;
         }
 
+        public BigFraction(int num, int den)
+        {
+            Numerator = new BigInteger(num);
+            Denominator = new BigInteger(den);
+        }
+
+        public BigFraction(long num, long den)
+        {
+            Numerator = new BigInteger(num);
+            Denominator = new BigInteger(den);
+        }
+
         //BigInteger constructor
         public BigFraction(BigInteger num)
         {
@@ -98,58 +110,141 @@ namespace Aprismatic
         //Operator %
         public static BigFraction operator %(BigFraction r, BigInteger mod)
         {
-            BigInteger modmulden = r.Denominator * mod;
-            BigInteger remainder = r.Numerator % modmulden;
-            BigFraction answer = new BigFraction(remainder, r.Denominator);
+            var modmulden = r.Denominator * mod;
+            var remainder = r.Numerator % modmulden;
+            var answer = new BigFraction(remainder, r.Denominator);
             return answer;
         }
 
         //Operator >
-        public static Boolean operator >(BigFraction r1, BigFraction r2)
+        public static bool operator >(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
-            if (r1compare.CompareTo(r2compare) == 1) { return true; }
-            else { return false; }
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 1;
+        }
+
+        public static bool operator >(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 1;
+        }
+
+        public static bool operator >(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
+            return r1compare.CompareTo(r2compare) == 1;
         }
 
         //Operator <
-        public static Boolean operator <(BigFraction r1, BigFraction r2)
+        public static bool operator <(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == -1;
+        }
+
+        public static bool operator <(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == -1;
+        }
+
+        public static bool operator <(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
             return r1compare.CompareTo(r2compare) == -1;
         }
 
         //Operator ==
-        public static Boolean operator ==(BigFraction r1, BigFraction r2)
+        public static bool operator ==(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator ==(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator ==(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
             return r1compare.CompareTo(r2compare) == 0;
         }
 
         //Operator !=
-        public static Boolean operator !=(BigFraction r1, BigFraction r2)
+        public static bool operator !=(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
-            return !(r1compare.CompareTo(r2compare) == 0);
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) != 0;
+        }
+
+        public static bool operator !=(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) != 0;
+        }
+
+        public static bool operator !=(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
+            return r1compare.CompareTo(r2compare) != 0;
         }
 
         //Operator <=
-        public static Boolean operator <=(BigFraction r1, BigFraction r2)
+        public static bool operator <=(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator <=(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator <=(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
             return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
         }
 
         //Operator >=
-        public static Boolean operator >=(BigFraction r1, BigFraction r2)
+        public static bool operator >=(BigFraction r1, BigFraction r2)
         {
-            BigInteger r1compare = r1.Numerator * r2.Denominator;
-            BigInteger r2compare = r2.Numerator * r1.Denominator;
+            var r1compare = r1.Numerator * r2.Denominator;
+            var r2compare = r2.Numerator * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator >=(BigFraction r1, BigInteger r2)
+        {
+            var r1compare = r1.Numerator;
+            var r2compare = r2 * r1.Denominator;
+            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
+        }
+
+        public static bool operator >=(BigInteger r1, BigFraction r2)
+        {
+            var r1compare = r1 * r2.Denominator;
+            var r2compare = r2.Numerator;
             return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
         }
 
@@ -160,11 +255,35 @@ namespace Aprismatic
                 a.Denominator * b.Denominator);
         }
 
+        public static BigFraction operator -(BigFraction a, BigInteger b)
+        {
+            return new BigFraction(a.Numerator - b * a.Denominator,
+                a.Denominator);
+        }
+
+        public static BigFraction operator -(BigInteger a, BigFraction b)
+        {
+            return new BigFraction(a * b.Denominator - b.Numerator,
+                b.Denominator);
+        }
+
         //Operator +
         public static BigFraction operator +(BigFraction a, BigFraction b)
         {
             return new BigFraction(a.Numerator * b.Denominator + b.Numerator * a.Denominator,
                 a.Denominator * b.Denominator);
+        }
+
+        public static BigFraction operator +(BigFraction a, BigInteger b)
+        {
+            return new BigFraction(a.Numerator + b * a.Denominator,
+                a.Denominator);
+        }
+
+        public static BigFraction operator +(BigInteger a, BigFraction b)
+        {
+            return new BigFraction(a * b.Denominator + b.Numerator,
+                b.Denominator);
         }
 
         //Operator *
@@ -173,10 +292,30 @@ namespace Aprismatic
             return new BigFraction(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
         }
 
+        public static BigFraction operator *(BigFraction a, BigInteger b)
+        {
+            return new BigFraction(a.Numerator * b, a.Denominator);
+        }
+
+        public static BigFraction operator *(BigInteger a, BigFraction b)
+        {
+            return new BigFraction(a * b.Numerator, b.Denominator);
+        }
+
         //Operator /
         public static BigFraction operator /(BigFraction a, BigFraction b)
         {
             return new BigFraction(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
+        }
+
+        public static BigFraction operator /(BigFraction a, BigInteger b)
+        {
+            return new BigFraction(a.Numerator, a.Denominator * b);
+        }
+
+        public static BigFraction operator /(BigInteger a, BigFraction b)
+        {
+            return new BigFraction(a * b.Denominator, b.Numerator);
         }
 
         //Override Equals
@@ -184,7 +323,7 @@ namespace Aprismatic
         {
             if (!(obj is BigFraction comparebigfrac)) return false;
 
-            if (Numerator == 0 && comparebigfrac.Numerator == 0) return true; // if both values are zero
+            if (IsZero && comparebigfrac.IsZero) return true;
 
             return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
         }
@@ -205,13 +344,13 @@ namespace Aprismatic
 
         public void Simplify()
         {
-            BigInteger quotient = Numerator / Denominator;  //Separate quotient from the number for faster calculation
-            BigInteger remainder = Numerator % Denominator;
-            BigInteger gcd = BigInteger.GreatestCommonDivisor(remainder, Denominator);
-            remainder = remainder / gcd;
+            var quotient = Numerator / Denominator; //Separate quotient from the number for faster calculation
+            var remainder = Numerator % Denominator;
+            var gcd = BigInteger.GreatestCommonDivisor(remainder, Denominator);
+            remainder /= gcd;
 
-            Denominator = Denominator / gcd;
-            Numerator = (quotient * Denominator) + remainder;
+            Denominator /= gcd;
+            Numerator = quotient * Denominator + remainder;
         }
 
         //NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
@@ -221,26 +360,22 @@ namespace Aprismatic
 
         public double ToDouble() => (double)Numerator / (double)Denominator;
 
-        public decimal ToDecimal() => DecimalScale(this);
-
-        private static decimal DecimalScale(BigFraction bigFraction)
+        public decimal ToDecimal()
         {
-            if (bigFraction.Numerator <= MAX_DECIMAL && bigFraction.Numerator >= MIN_DECIMAL &&
-                bigFraction.Denominator <= MAX_DECIMAL && bigFraction.Denominator >= MIN_DECIMAL)
-                return (decimal)bigFraction.Numerator / (decimal)bigFraction.Denominator;
+            if (IsZero)
+                return 0;
 
-            var intPart = bigFraction.Numerator / bigFraction.Denominator;
+            if (Numerator <= MAX_DECIMAL && Numerator >= MIN_DECIMAL &&
+                Denominator <= MAX_DECIMAL && Denominator >= MIN_DECIMAL)
+                return (decimal)Numerator / (decimal)Denominator;
+
+            var intPart = Numerator / Denominator;
+
             if (intPart != 0)
-            {
-                return (decimal)intPart + DecimalScale(bigFraction - intPart);
-            }
-            else
-            {
-                if (bigFraction.Numerator == 0)
-                    return 0;
-                else
-                    return 1 / DecimalScale(1 / bigFraction); ;
-            }
+                return (decimal)intPart + (this - intPart).ToDecimal();
+
+            var thisinverse = new BigFraction(Denominator, Numerator); // == 1 / this
+            return 1 / thisinverse.ToDecimal();
         }
 
         //Conversion from double to fraction
@@ -253,41 +388,39 @@ namespace Aprismatic
             }
 
             var sign = Math.Sign(value);
+            var signbi =
+                sign == -1 ? BigInteger.MinusOne :
+                sign == 0 ? BigInteger.Zero :
+                BigInteger.One;
 
             if (sign == -1)
-            {
                 value = Math.Abs(value);
-            }
 
             // Accuracy is the maximum relative error; convert to absolute maxError
-            double maxError = sign == 0 ? accuracy : value * accuracy;
+            var maxError = sign == 0 ? accuracy : value * accuracy;
 
             var n = new BigInteger(value);
             value -= Math.Floor(value);
 
             if (value < maxError)
-            {
-                return new BigFraction(sign * n, BigInteger.One);
-            }
+                return new BigFraction(signbi * n, BigInteger.One);
 
             if (1 - maxError < value)
-            {
-                return new BigFraction(sign * (n + 1), BigInteger.One);
-            }
+                return new BigFraction(signbi * (n + BigInteger.One), BigInteger.One);
 
             // The lower fraction is 0/1
-            int lower_n = 0;
-            int lower_d = 1;
+            var lower_n = 0;
+            var lower_d = 1;
 
             // The upper fraction is 1/1
-            int upper_n = 1;
-            int upper_d = 1;
+            var upper_n = 1;
+            var upper_d = 1;
 
             while (true)
             {
                 // The middle fraction is (lower_n + upper_n) / (lower_d + upper_d)
-                int middle_n = lower_n + upper_n;
-                int middle_d = lower_d + upper_d;
+                var middle_n = lower_n + upper_n;
+                var middle_d = lower_d + upper_d;
 
                 if (middle_d * (value + maxError) < middle_n)
                 {
@@ -304,7 +437,8 @@ namespace Aprismatic
                 else
                 {
                     // Middle is our best fraction
-                    return new BigFraction((n * middle_d + middle_n) * sign, middle_d);
+                    var middle_d_bi = new BigInteger(middle_d);
+                    return new BigFraction((n * middle_d_bi + middle_n) * signbi, middle_d_bi);
                 }
             }
         }
