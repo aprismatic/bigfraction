@@ -3,61 +3,113 @@ using System.Numerics;
 
 namespace Aprismatic
 {
-    public struct BigFraction
+    /// <summary>
+    /// A struct that represents a a fraction (BigInteger / BigInteger).
+    /// </summary>
+    public readonly struct BigFraction
     {
-        //Paramaters Numerator / Denominator
-        public BigInteger Numerator { get; private set; }
-        public BigInteger Denominator { get; private set; }
+        // Parameters Numerator / Denominator
+        /// <summary>
+        /// The numerator of the fraction.
+        /// </summary>
+        public readonly BigInteger Numerator;
+
+        /// <summary>
+        /// The denominator of the fraction.
+        /// </summary>
+        public readonly BigInteger Denominator;
 
         private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
         private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
 
+
+        /// <summary>
+        /// Predefined constant of a BigFraction that represents –1.
+        /// </summary>
         public static readonly BigFraction MinusOne = new BigFraction(BigInteger.MinusOne, BigInteger.One);
+
+        /// <summary>
+        /// Predefined constant of a BigFraction that represents 0.
+        /// </summary>
         public static readonly BigFraction Zero = new BigFraction(BigInteger.Zero, BigInteger.One);
+
+        /// <summary>
+        /// Predefined constant of a BigFraction that represents 1.
+        /// </summary>
         public static readonly BigFraction One = new BigFraction(BigInteger.One, BigInteger.One);
 
         // FIELDS
+        /// <summary>
+        /// Returns the sign of the fraction.
+        /// </summary>
         public int Sign =>
-            Numerator.IsZero
-            ? 0
-            : Numerator.Sign == Denominator.Sign
-                ? 1
-                : -1;
+            Numerator.IsZero                   ? 0 :
+            Numerator.Sign == Denominator.Sign ? 1 :
+                                                -1 ;
 
+        /// <summary>
+        /// Returns true if fraction equals to zero (i.e., its numerator is zero).
+        /// </summary>
         public bool IsZero => Numerator.IsZero;
 
+        /// <summary>
+        /// Return true if fraction equals to one (i.e., its numerator equals its denominator).
+        /// </summary>
         public bool IsOne => Numerator == Denominator;
 
 
-        //CONSTRUCTORS
+        // CONSTRUCTORS
 
-        //Fractional constructor
+        // Fractional constructor
+        /// <summary>
+        /// Create a fraction from a numerator and a denominator
+        /// </summary>
+        /// <param name="num">Numerator</param>
+        /// <param name="den">Denominator</param>
         public BigFraction(BigInteger num, BigInteger den)
         {
             Numerator = num;
             Denominator = den;
         }
 
+        /// <summary>
+        /// Create a fraction from a numerator and a denominator
+        /// </summary>
+        /// <param name="num">Numerator</param>
+        /// <param name="den">Denominator</param>
         public BigFraction(int num, int den)
         {
             Numerator = new BigInteger(num);
             Denominator = new BigInteger(den);
         }
 
+        /// <summary>
+        /// Create a fraction from a numerator and a denominator
+        /// </summary>
+        /// <param name="num">Numerator</param>
+        /// <param name="den">Denominator</param>
         public BigFraction(long num, long den)
         {
             Numerator = new BigInteger(num);
             Denominator = new BigInteger(den);
         }
 
-        //BigInteger constructor
+        // BigInteger constructor
+        /// <summary>
+        /// Create a fraction from BigInteger (denominator is assumed to be 1)
+        /// </summary>
+        /// <param name="num">Numerator</param>
         public BigFraction(BigInteger num)
         {
             Numerator = num;
             Denominator = BigInteger.One;
         }
 
-        //Decimal constructor
+        // Decimal constructor
+        /// <summary>
+        /// Convert a decimal to a fraction with exact precision
+        /// </summary>
+        /// <param name="dec">Decimal to convert</param>
         public BigFraction(decimal dec)
         {
             int count = BitConverter.GetBytes(decimal.GetBits(dec)[3])[2];  //count decimal places
@@ -65,58 +117,106 @@ namespace Aprismatic
             Denominator = new BigInteger(Math.Pow(10, count));
         }
 
-        //Double constructor
+        // Double constructor
+        /// <summary>
+        /// Create a fraction from a double within a given precision
+        /// </summary>
+        /// <param name="dou">Double to convert to fraction</param>
+        /// <param name="accuracy">Convert within this accuracy window</param>
         public BigFraction(double dou, double accuracy = 1e-15)
         {
-            BigFraction f = FromDouble(dou, accuracy);
+            var f = FromDouble(dou, accuracy);
             Numerator = f.Numerator;
             Denominator = f.Denominator;
         }
 
-        //Long constructor
+        // Long constructor
+        /// <summary>
+        /// Convert long to fraction
+        /// </summary>
+        /// <param name="i">Long to convert</param>
         public BigFraction(long i)
         {
             Numerator = new BigInteger(i);
             Denominator = BigInteger.One;
         }
 
-        //Integer constructor
+        // Integer constructor
+        /// <summary>
+        /// Convert int to fraction
+        /// </summary>
+        /// <param name="i">Int to convert</param>
         public BigFraction(int i)
         {
             Numerator = new BigInteger(i);
             Denominator = BigInteger.One;
         }
 
-        //OPERATORS
+        // OPERATORS
 
-        //User-defined conversion from BigInteger to BigFraction
+        // BigInteger to BigFraction
+        /// <summary>
+        /// Implicitly convert BigInteger to BigFraction
+        /// </summary>
+        /// <param name="integer">BigInteger to convert</param>
         public static implicit operator BigFraction(BigInteger integer) => new BigFraction(integer);
 
-        //User-defined conversion from Decimal to BigFraction
+        // Decimal to BigFraction
+        /// <summary>
+        /// Implicitly convert decimal to BigFraction
+        /// </summary>
+        /// <param name="dec">Decimal to convert</param>
         public static implicit operator BigFraction(decimal dec) => new BigFraction(dec);
 
-        //User-defined conversion from Double to BigFraction
+        // Double to BigFraction
+        /// <summary>
+        /// Implicitly convert double to BigFraction
+        /// </summary>
+        /// <param name="d">Double to convert</param>
         public static implicit operator BigFraction(double d) => new BigFraction(d);
 
-        //User-defined conversion from Long to BigFraction
+        // Long to BigFraction
+        /// <summary>
+        /// Implicitly convert long to BigFraction
+        /// </summary>
+        /// <param name="l">Long to convert</param>
         public static implicit operator BigFraction(long l) => new BigFraction(l);
 
-        //User-defined conversion from Integer to BigFraction
+        // Integer to BigFraction
+        /// <summary>
+        /// Implicitly convert int to BigFraction
+        /// </summary>
+        /// <param name="i">Int to convert</param>
         public static implicit operator BigFraction(int i) => new BigFraction(i);
 
-        //Unary minus
+        // Unary minus
+        /// <summary>
+        /// Negate a fraction
+        /// </summary>
+        /// <param name="value">Fraction to negate</param>
         public static BigFraction operator -(BigFraction value) => new BigFraction(-value.Numerator, value.Denominator);
 
-        //Operator %
+        /*
+        // Operator %
+        /// <summary>
+        /// Modulus operator
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="mod"></param>
         public static BigFraction operator %(BigFraction r, BigInteger mod)
         {
             var modmulden = r.Denominator * mod;
             var remainder = r.Numerator % modmulden;
             var answer = new BigFraction(remainder, r.Denominator);
             return answer;
-        }
+        }*/
 
-        //Operator >
+        // Operator >
+        /// <summary>
+        /// Operator "greater than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -124,6 +224,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1;
         }
 
+        /// <summary>
+        /// Operator "greater than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -131,6 +236,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1;
         }
 
+        /// <summary>
+        /// Operator "greater than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -138,7 +248,12 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1;
         }
 
-        //Operator <
+        // Operator <
+        /// <summary>
+        /// Operator "less than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -146,6 +261,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1;
         }
 
+        /// <summary>
+        /// Operator "less than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -153,6 +273,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1;
         }
 
+        /// <summary>
+        /// Operator "less than"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -160,7 +285,12 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1;
         }
 
-        //Operator ==
+        // Operator ==
+        /// <summary>
+        /// Operator "equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator ==(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -168,6 +298,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator ==(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -175,6 +310,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator ==(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -182,7 +322,12 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 0;
         }
 
-        //Operator !=
+        // Operator !=
+        /// <summary>
+        /// Operator "not equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator !=(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -190,6 +335,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) != 0;
         }
 
+        /// <summary>
+        /// Operator "not equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator !=(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -197,6 +347,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) != 0;
         }
 
+        /// <summary>
+        /// Operator "not equals"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator !=(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -204,7 +359,12 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) != 0;
         }
 
-        //Operator <=
+        // Operator <=
+        /// <summary>
+        /// Operator "less than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <=(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -212,6 +372,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "less than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <=(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -219,6 +384,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "less than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator <=(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -226,7 +396,12 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
         }
 
-        //Operator >=
+        // Operator >=
+        /// <summary>
+        /// Operator "greater than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >=(BigFraction r1, BigFraction r2)
         {
             var r1compare = r1.Numerator * r2.Denominator;
@@ -234,6 +409,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "greater than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >=(BigFraction r1, BigInteger r2)
         {
             var r1compare = r1.Numerator;
@@ -241,6 +421,11 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
         }
 
+        /// <summary>
+        /// Operator "greater than or equals to"
+        /// </summary>
+        /// <param name="r1">First operand</param>
+        /// <param name="r2">Second operand</param>
         public static bool operator >=(BigInteger r1, BigFraction r2)
         {
             var r1compare = r1 * r2.Denominator;
@@ -248,77 +433,111 @@ namespace Aprismatic
             return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
         }
 
-        //Operator -
-        public static BigFraction operator -(BigFraction a, BigFraction b)
-        {
-            return new BigFraction(a.Numerator * b.Denominator - b.Numerator * a.Denominator,
+        // Operator -
+        /// <summary>
+        /// Operator "minus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator -(BigFraction a, BigFraction b) =>
+            new BigFraction(a.Numerator * b.Denominator - b.Numerator * a.Denominator,
                 a.Denominator * b.Denominator);
-        }
 
-        public static BigFraction operator -(BigFraction a, BigInteger b)
-        {
-            return new BigFraction(a.Numerator - b * a.Denominator,
+        /// <summary>
+        /// Operator "minus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator -(BigFraction a, BigInteger b) =>
+            new BigFraction(a.Numerator - b * a.Denominator,
                 a.Denominator);
-        }
 
-        public static BigFraction operator -(BigInteger a, BigFraction b)
-        {
-            return new BigFraction(a * b.Denominator - b.Numerator,
+        /// <summary>
+        /// Operator "minus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator -(BigInteger a, BigFraction b) =>
+            new BigFraction(a * b.Denominator - b.Numerator,
                 b.Denominator);
-        }
 
-        //Operator +
-        public static BigFraction operator +(BigFraction a, BigFraction b)
-        {
-            return new BigFraction(a.Numerator * b.Denominator + b.Numerator * a.Denominator,
+        // Operator +
+        /// <summary>
+        /// Operator "plus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator +(BigFraction a, BigFraction b) =>
+            new BigFraction(a.Numerator * b.Denominator + b.Numerator * a.Denominator,
                 a.Denominator * b.Denominator);
-        }
 
-        public static BigFraction operator +(BigFraction a, BigInteger b)
-        {
-            return new BigFraction(a.Numerator + b * a.Denominator,
+        /// <summary>
+        /// Operator "plus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator +(BigFraction a, BigInteger b) =>
+            new BigFraction(a.Numerator + b * a.Denominator,
                 a.Denominator);
-        }
 
-        public static BigFraction operator +(BigInteger a, BigFraction b)
-        {
-            return new BigFraction(a * b.Denominator + b.Numerator,
+        /// <summary>
+        /// Operator "plus"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator +(BigInteger a, BigFraction b) =>
+            new BigFraction(a * b.Denominator + b.Numerator,
                 b.Denominator);
-        }
 
-        //Operator *
-        public static BigFraction operator *(BigFraction a, BigFraction b)
-        {
-            return new BigFraction(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
-        }
+        // Operator *
+        /// <summary>
+        /// Operator "multiply"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator *(BigFraction a, BigFraction b) => new BigFraction(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
 
-        public static BigFraction operator *(BigFraction a, BigInteger b)
-        {
-            return new BigFraction(a.Numerator * b, a.Denominator);
-        }
+        /// <summary>
+        /// Operator "multiply"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator *(BigFraction a, BigInteger b) => new BigFraction(a.Numerator * b, a.Denominator);
 
-        public static BigFraction operator *(BigInteger a, BigFraction b)
-        {
-            return new BigFraction(a * b.Numerator, b.Denominator);
-        }
+        /// <summary>
+        /// Operator "multiply"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator *(BigInteger a, BigFraction b) => new BigFraction(a * b.Numerator, b.Denominator);
 
-        //Operator /
-        public static BigFraction operator /(BigFraction a, BigFraction b)
-        {
-            return new BigFraction(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
-        }
+        // Operator /
+        /// <summary>
+        /// Operator "divide"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator /(BigFraction a, BigFraction b) => new BigFraction(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
 
-        public static BigFraction operator /(BigFraction a, BigInteger b)
-        {
-            return new BigFraction(a.Numerator, a.Denominator * b);
-        }
+        /// <summary>
+        /// Operator "divide"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator /(BigFraction a, BigInteger b) => new BigFraction(a.Numerator, a.Denominator * b);
 
-        public static BigFraction operator /(BigInteger a, BigFraction b)
-        {
-            return new BigFraction(a * b.Denominator, b.Numerator);
-        }
+        /// <summary>
+        /// Operator "divide"
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        public static BigFraction operator /(BigInteger a, BigFraction b) => new BigFraction(a * b.Denominator, b.Numerator);
 
-        //Override Equals
+        // Override Equals
+        /// <summary>
+        /// Deep check for equality of two BigFraction objects
+        /// </summary>
+        /// <param name="obj">Object to compare to</param>
         public override bool Equals(object obj)
         {
             if (!(obj is BigFraction comparebigfrac)) return false;
@@ -328,64 +547,92 @@ namespace Aprismatic
             return Numerator * comparebigfrac.Denominator == comparebigfrac.Numerator * Denominator;
         }
 
-        //Override GetHashCode
-        public override int GetHashCode()
+        // Override GetHashCode
+        /// <summary>
+        /// Override GetHashCode
+        /// </summary>
+        public override int GetHashCode() // TODO: this will produce the same hash code for all fractions between 0 and 1 which might be undesirable
         {
-            return Numerator.GetHashCode() / Denominator.GetHashCode();
+            var denhc = Denominator.GetHashCode();
+            if (denhc == 0)
+                denhc = 1;
+            var numhc = Numerator.GetHashCode();
+            return numhc / denhc;
         }
 
-        //Override ToString
-        public override string ToString()
-        {
-            return "(" + Numerator.ToString() + "/" + Denominator.ToString() + ")";
-        }
+        // Override ToString
+        /// <summary>
+        /// Convert fraction to a string representation
+        /// </summary>
+        public override string ToString() => "(" + Numerator.ToString() + "/" + Denominator.ToString() + ")";
 
-        //MISC
+        // MISC
 
-        public void Simplify()
+        /// <summary>
+        /// Returns a BigFraction that is equal to <c>this</c> but with numerator and denominator divided by their GCD
+        /// </summary>
+        public BigFraction Simplify()
         {
-            var quotient = Numerator / Denominator; //Separate quotient from the number for faster calculation
-            var remainder = Numerator % Denominator;
+            var quotient = Numerator / Denominator; // Separate the quotient from the number for faster calculation
+            var quot_x_denom = quotient * Denominator;
+            var remainder = Numerator - quot_x_denom;
             var gcd = BigInteger.GreatestCommonDivisor(remainder, Denominator);
             remainder /= gcd;
 
-            Denominator /= gcd;
-            Numerator = quotient * Denominator + remainder;
+            var newDenominator = Denominator / gcd;
+            var newNumerator = quotient * newDenominator + remainder;
+            return new BigFraction(newNumerator, newDenominator);
         }
 
-        //NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
+        /// <summary>
+        /// Converts a BigFraction to a BigInteger (truncates the fractional part).
+        /// NOTE: ALWAYS use this method when converting from BigFraction to BigInteger.
+        /// </summary>
         public BigInteger ToBigInteger() => Numerator / Denominator;
 
+        // TODO: improve this to handle large numerators and denominators
+        /// <summary>
+        /// Converts a BigFraction to a float
+        /// </summary>
         public float ToFloat() => (float)Numerator / (float)Denominator;
 
+        // TODO: improve this to handle large numerators and denominators
+        /// <summary>
+        /// Convert a BigFraction to a double
+        /// </summary>
         public double ToDouble() => (double)Numerator / (double)Denominator;
 
+        /// <summary>
+        /// Convert a BigFraction to a decimal
+        /// </summary>
         public decimal ToDecimal()
         {
             if (IsZero)
-                return 0;
+                return 0m;
 
             if (Numerator <= MAX_DECIMAL && Numerator >= MIN_DECIMAL &&
                 Denominator <= MAX_DECIMAL && Denominator >= MIN_DECIMAL)
                 return (decimal)Numerator / (decimal)Denominator;
 
-            var intPart = Numerator / Denominator;
+            var quotient = Numerator / Denominator;
 
-            if (intPart != 0)
-                return (decimal)intPart + (this - intPart).ToDecimal();
+            if (quotient != 0)
+                return (decimal)quotient + (this - quotient).ToDecimal();
 
-            var thisinverse = new BigFraction(Denominator, Numerator); // == 1 / this
-            return 1 / thisinverse.ToDecimal();
+            var thisInverse = new BigFraction(Denominator, Numerator); // == 1 / this
+            return 1m / thisInverse.ToDecimal();
         }
 
-        //Conversion from double to fraction
-        //Accuracy is used to convert recurring decimals into fractions (eg. 0.166667 -> 1/6)
+        /// <summary>
+        /// Conversion from double to fraction
+        /// </summary>
+        /// <param name="value">Double to convert</param>
+        /// <param name="accuracy">Accuracy is used to convert recurring decimals into fractions (eg. 0.166667 -> 1/6)</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if accuracy ≤ 0 or accuracy ≥ 1</exception>
         public static BigFraction FromDouble(double value, double accuracy)
         {
             if (accuracy <= 0.0 || accuracy >= 1.0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(accuracy), "must be > 0 and < 1");
-            }
 
             var sign = Math.Sign(value);
             var signbi =
