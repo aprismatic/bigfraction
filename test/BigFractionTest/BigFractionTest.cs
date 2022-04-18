@@ -186,14 +186,14 @@ namespace OperatorTest
             Assert.Equal(expected, a / b);
         }
 
-        [Fact(DisplayName = "%")]
+        /*[Fact(DisplayName = "%")]
         public void Modulus()
         {
             BigFraction a = new BigFraction(5.25);
             BigInteger b = new BigInteger(5);
             BigFraction expected = new BigFraction(0.25);
             Assert.Equal(expected, a % b);
-        }
+        }*/
 
         [Fact(DisplayName = ">")]
         public void Greater()
@@ -326,14 +326,14 @@ namespace OperatorTest
             Assert.Equal(a, a / BigInteger.One);
         }
 
-        [Fact(DisplayName = "%")]
+        /*[Fact(DisplayName = "%")]
         public void Modulus()
         {
             var a = new BigFraction(5.25);
             var c = a % 5;
             var expected = new BigFraction(0.25);
             Assert.Equal(expected, c);
-        }
+        }*/
 
         [Fact(DisplayName = ">")]
         public void Greater()
@@ -504,10 +504,23 @@ namespace MiscTest
         [Fact(DisplayName = "Simplify")]
         public void simplify()
         {
-            BigFraction a = new BigFraction(new BigInteger(1000), new BigInteger(100));
-            a.Simplify();
-            BigInteger expected = new BigInteger(10);
-            Assert.Equal(expected,a);
+            {
+                BigFraction a = new BigFraction(new BigInteger(1000), new BigInteger(100));
+                var b = a.Simplify();
+                var expected = new BigFraction(10, 1);
+                Assert.Equal(expected, b);
+                Assert.Equal(expected.Numerator, b.Numerator);
+                Assert.Equal(expected.Denominator, b.Denominator);
+            }
+
+            {
+                BigFraction a = new BigFraction(new BigInteger(20), new BigInteger(100));
+                var b = a.Simplify();
+                var expected = new BigFraction(1, 5);
+                Assert.Equal(expected, b);
+                Assert.Equal(expected.Numerator, b.Numerator);
+                Assert.Equal(expected.Denominator, b.Denominator);
+            }
         }
 
         [Fact(DisplayName = "ToBigInteger")]
