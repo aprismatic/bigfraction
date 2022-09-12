@@ -359,7 +359,6 @@ MigrationBackup/
 # VS Code
 .vscode/
 
-
 # Common IntelliJ Platform excludes
 .idea/
 

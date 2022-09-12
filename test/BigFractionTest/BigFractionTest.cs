@@ -186,15 +186,6 @@ namespace OperatorTest
             Assert.Equal(expected, a / b);
         }
 
-        /*[Fact(DisplayName = "%")]
-        public void Modulus()
-        {
-            BigFraction a = new BigFraction(5.25);
-            BigInteger b = new BigInteger(5);
-            BigFraction expected = new BigFraction(0.25);
-            Assert.Equal(expected, a % b);
-        }*/
-
         [Fact(DisplayName = ">")]
         public void Greater()
         {
@@ -206,6 +197,36 @@ namespace OperatorTest
             Assert.True(b > -a);
             Assert.False(-a > b);
             Assert.False(-a > -b);
+            Assert.False(a > a);
+            Assert.False(b > b);
+
+            Assert.True(BigFraction.One > BigFraction.Zero);
+            Assert.True(BigFraction.One > BigFraction.MinusOne);
+            Assert.True(BigFraction.Zero > BigFraction.MinusOne);
+
+            Assert.False(BigFraction.One > BigFraction.One);
+            Assert.False(BigFraction.Zero > BigFraction.Zero);
+            Assert.False(BigFraction.MinusOne > BigFraction.MinusOne);
+
+            Assert.False(BigFraction.MinusOne > BigFraction.Zero);
+            Assert.False(BigFraction.Zero > BigFraction.One);
+            Assert.False(BigFraction.MinusOne > BigFraction.One);
+
+            Assert.True(BigFraction.Zero > new BigFraction(1, -1));
+            Assert.True(BigFraction.One > new BigFraction(1, -1));
+            Assert.False(BigFraction.MinusOne > new BigFraction(1, -1));
+
+            Assert.True(BigInteger.Zero > new BigFraction(1, -1));
+            Assert.True(BigInteger.One > new BigFraction(1, -1));
+            Assert.False(BigInteger.MinusOne > new BigFraction(1, -1));
+
+            Assert.True(new BigFraction(1, -1) > new BigFraction(-2));
+            Assert.False(new BigFraction(1,-1) > BigFraction.MinusOne);
+            Assert.False(new BigFraction(1, -1) > BigFraction.Zero);
+
+            Assert.True(new BigFraction(1, -1) > new BigInteger(-2));
+            Assert.False(new BigFraction(1,-1) > BigInteger.MinusOne);
+            Assert.False(new BigFraction(1, -1) > BigInteger.Zero);
         }
 
         [Fact(DisplayName = "<")]
@@ -214,6 +235,41 @@ namespace OperatorTest
             BigFraction a = new BigFraction(-251.15);
             BigFraction b = new BigFraction(4.20);
             Assert.True(a < b);
+            Assert.False(b < a);
+            Assert.True(a < -b);
+            Assert.True(b < -a);
+            Assert.False(-a < b);
+            Assert.False(-a < -b);
+            Assert.False(a < a);
+            Assert.False(b < b);
+
+            Assert.True(BigFraction.MinusOne < BigFraction.Zero);
+            Assert.True(BigFraction.MinusOne < BigFraction.One);
+            Assert.True(BigFraction.Zero < BigFraction.One);
+
+            Assert.False(BigFraction.MinusOne < BigFraction.MinusOne);
+            Assert.False(BigFraction.Zero < BigFraction.Zero);
+            Assert.False(BigFraction.One < BigFraction.One);
+
+            Assert.False(BigFraction.One < BigFraction.Zero);
+            Assert.False(BigFraction.Zero < BigFraction.MinusOne);
+            Assert.False(BigFraction.One < BigFraction.MinusOne);
+
+            Assert.True(new BigFraction(-2) < new BigFraction(1, -1));
+            Assert.False(BigFraction.Zero < new BigFraction(1, -1));
+            Assert.False(BigFraction.MinusOne < new BigFraction(1, -1));
+
+            Assert.True(new BigInteger(-2) < new BigFraction(1, -1));
+            Assert.False(BigInteger.MinusOne < new BigFraction(1, -1));
+            Assert.False(BigInteger.Zero < new BigFraction(1, -1));
+
+            Assert.True(new BigFraction(1, -1) < BigFraction.One);
+            Assert.True(new BigFraction(1, -1) < BigFraction.Zero);
+            Assert.False(new BigFraction(1, -1) < BigFraction.MinusOne);
+
+            Assert.True(new BigFraction(1, -1) < BigInteger.One);
+            Assert.True(new BigFraction(1, -1) < BigInteger.Zero);
+            Assert.False(new BigFraction(1, -1) < BigInteger.MinusOne);
         }
 
         [Fact(DisplayName = ">=")]
@@ -539,6 +595,20 @@ namespace MiscTest
             BigFraction b = BigFraction.FromDouble(a, 1e-15);
             BigFraction expected = new BigFraction(new BigInteger(1), new BigInteger(2));
             Assert.Equal(expected, b);
+        }
+
+        [Fact(DisplayName = "Abs")]
+        public void AbsTest()
+        {
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(1)));
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(-1)));
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(1, -1)));
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(-1, -1)));
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(-1, 1)));
+            Assert.Equal(BigFraction.One, BigFraction.Abs(new BigFraction(1, 1)));
+            Assert.Equal(BigFraction.Zero, BigFraction.Abs(new BigFraction(0)));
+            Assert.Equal(BigFraction.Zero, BigFraction.Abs(new BigFraction(0, -1)));
+            Assert.Equal(BigFraction.Zero, BigFraction.Abs(new BigFraction(0, 1)));
         }
     }
 }

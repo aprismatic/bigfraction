@@ -3,6 +3,7 @@
     <TargetFramework>netstandard1.1</TargetFramework>
     <Description>BigFraction implementation using .NET BigInteger class.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RepositoryUrl>https://github.com/aprismatic/bigfraction</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>

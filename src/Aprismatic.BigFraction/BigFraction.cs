@@ -22,7 +22,6 @@ namespace Aprismatic
         private static readonly BigInteger MAX_DECIMAL = new BigInteger(decimal.MaxValue);
         private static readonly BigInteger MIN_DECIMAL = new BigInteger(decimal.MinValue);
 
-
         /// <summary>
         /// Predefined constant of a BigFraction that represents –1.
         /// </summary>
@@ -40,7 +39,7 @@ namespace Aprismatic
 
         // FIELDS
         /// <summary>
-        /// Returns the sign of the fraction.
+        /// Returns the sign of the fraction (-1, 0, or 1).
         /// </summary>
         public int Sign =>
             Numerator.IsZero                   ? 0 :
@@ -58,6 +57,7 @@ namespace Aprismatic
         public bool IsOne => Numerator == Denominator;
 
 
+        #region Constructors
         // CONSTRUCTORS
 
         // Fractional constructor
@@ -151,7 +151,9 @@ namespace Aprismatic
             Numerator = new BigInteger(i);
             Denominator = BigInteger.One;
         }
+        #endregion
 
+        #region Operators
         // OPERATORS
 
         // BigInteger to BigFraction
@@ -196,22 +198,6 @@ namespace Aprismatic
         /// <param name="value">Fraction to negate</param>
         public static BigFraction operator -(BigFraction value) => new BigFraction(-value.Numerator, value.Denominator);
 
-        /*
-        // Operator %
-        /// <summary>
-        /// Modulus operator
-        /// </summary>
-        /// <param name="r"></param>
-        /// <param name="mod"></param>
-        public static BigFraction operator %(BigFraction r, BigInteger mod)
-        {
-            var modmulden = r.Denominator * mod;
-            var remainder = r.Numerator % modmulden;
-            var answer = new BigFraction(remainder, r.Denominator);
-            return answer;
-        }*/
-
-        // Operator >
         /// <summary>
         /// Operator "greater than"
         /// </summary>
@@ -221,7 +207,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator * r2.Denominator;
             var r2compare = r2.Numerator * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == 1;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == r2.Denominator.Sign ? res > 0 : res < 0;
         }
 
         /// <summary>
@@ -233,7 +220,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator;
             var r2compare = r2 * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == 1;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == 1 ? res > 0 : res < 0;
         }
 
         /// <summary>
@@ -245,7 +233,8 @@ namespace Aprismatic
         {
             var r1compare = r1 * r2.Denominator;
             var r2compare = r2.Numerator;
-            return r1compare.CompareTo(r2compare) == 1;
+            var res = r1compare.CompareTo(r2compare);
+            return r2.Denominator.Sign == 1 ? res > 0 : res < 0;
         }
 
         // Operator <
@@ -258,7 +247,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator * r2.Denominator;
             var r2compare = r2.Numerator * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == -1;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == r2.Denominator.Sign ? res < 0 : res > 0;
         }
 
         /// <summary>
@@ -270,7 +260,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator;
             var r2compare = r2 * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == -1;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == 1 ? res < 0 : res > 0;
         }
 
         /// <summary>
@@ -282,7 +273,8 @@ namespace Aprismatic
         {
             var r1compare = r1 * r2.Denominator;
             var r2compare = r2.Numerator;
-            return r1compare.CompareTo(r2compare) == -1;
+            var res = r1compare.CompareTo(r2compare);
+            return r2.Denominator.Sign == 1 ? res < 0 : res > 0;
         }
 
         // Operator ==
@@ -369,7 +361,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator * r2.Denominator;
             var r2compare = r2.Numerator * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == r2.Denominator.Sign ? res <= 0 : res >= 0;
         }
 
         /// <summary>
@@ -381,7 +374,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator;
             var r2compare = r2 * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == 1 ? res <= 0 : res >= 0;
         }
 
         /// <summary>
@@ -393,7 +387,8 @@ namespace Aprismatic
         {
             var r1compare = r1 * r2.Denominator;
             var r2compare = r2.Numerator;
-            return r1compare.CompareTo(r2compare) == -1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r2.Denominator.Sign == 1 ? res <= 0 : res >= 0;
         }
 
         // Operator >=
@@ -406,7 +401,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator * r2.Denominator;
             var r2compare = r2.Numerator * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == r2.Denominator.Sign ? res >= 0 : res <= 0;
         }
 
         /// <summary>
@@ -418,7 +414,8 @@ namespace Aprismatic
         {
             var r1compare = r1.Numerator;
             var r2compare = r2 * r1.Denominator;
-            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r1.Denominator.Sign == 1 ? res >= 0 : res <= 0;
         }
 
         /// <summary>
@@ -430,7 +427,8 @@ namespace Aprismatic
         {
             var r1compare = r1 * r2.Denominator;
             var r2compare = r2.Numerator;
-            return r1compare.CompareTo(r2compare) == 1 || r1compare.CompareTo(r2compare) == 0;
+            var res = r1compare.CompareTo(r2compare);
+            return r2.Denominator.Sign == 1 ? res >= 0 : res <= 0;
         }
 
         // Operator -
@@ -532,6 +530,7 @@ namespace Aprismatic
         /// <param name="a">First operand</param>
         /// <param name="b">Second operand</param>
         public static BigFraction operator /(BigInteger a, BigFraction b) => new BigFraction(a * b.Denominator, b.Numerator);
+        #endregion
 
         // Override Equals
         /// <summary>
@@ -689,5 +688,7 @@ namespace Aprismatic
                 }
             }
         }
+
+        public static BigFraction Abs(BigFraction value) => value < 0 ? -value : value;
     }
 }
